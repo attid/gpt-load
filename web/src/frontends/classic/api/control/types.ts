@@ -129,6 +129,7 @@ export interface GroupRuntimeConfigDto {
   codex_live_mode?: CodexLiveMode
   responses_websocket_enabled?: boolean
   empty_response_retry?: boolean
+  expose_upstream_model?: boolean
   parameter_overrides?: ParameterOverrideRuleDto[]
 }
 
@@ -144,6 +145,7 @@ export interface GroupEffectiveConfigDto {
   codex_live_mode: CodexLiveMode
   responses_websocket_enabled: boolean
   empty_response_retry: boolean
+  expose_upstream_model: boolean
 }
 
 export interface GroupSettingsDto {

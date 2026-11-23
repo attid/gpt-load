@@ -190,6 +190,7 @@ type GroupView struct {
 	CodexLiveMode             CodexLiveMode
 	ResponsesWebsocketEnabled bool
 	EmptyResponseRetry        bool
+	ExposeUpstreamModel       bool
 	WeightManual              *int
 	Proxy                     outboundproxy.Effective
 	ParameterOverrides        parameteroverride.Rules
@@ -381,6 +382,7 @@ func Compile(input CompileInput) (*ConfigSnapshot, error) {
 			CodexLiveMode:             resolved.CodexLiveMode,
 			ResponsesWebsocketEnabled: resolved.ResponsesWebsocketEnabled,
 			EmptyResponseRetry:        resolved.EmptyResponseRetry,
+			ExposeUpstreamModel:       resolved.ExposeUpstreamModel,
 			ConcurrencyLimit:          resolved.ConcurrencyLimit,
 			WeightManual:              cloneWeight(group.WeightManual),
 			ConnectionType:            connection.Normalize(group.ConnectionType),

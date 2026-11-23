@@ -40,6 +40,7 @@ const (
 	SettingModelsDevAutoSyncEnabled         = "models_dev_auto_sync_enabled"
 	SettingParameterOverrides               = "parameter_overrides"
 	SettingErrorRules                       = "error_rules"
+	SettingExposeUpstreamModel              = "expose_upstream_model"
 )
 
 type CodexLiveMode string
@@ -89,6 +90,7 @@ type RuntimeSettings struct {
 	ValidationInterval               time.Duration
 	RequestLogRetentionDays          int
 	ModelsDevAutoSyncEnabled         bool
+	ExposeUpstreamModel              bool
 }
 
 type ResolvedGroupSettings struct {
@@ -102,6 +104,7 @@ type ResolvedGroupSettings struct {
 	ResponsesWebsocketEnabled bool
 	EmptyResponseRetry        bool
 	ParameterOverrides        parameteroverride.Rules
+	ExposeUpstreamModel       bool
 }
 
 func DefaultRuntimeSettings() RuntimeSettings {
@@ -147,7 +150,8 @@ func IsRuntimeSettingKey(key string) bool {
 		SettingAffinityCapacity,
 		SettingValidationInterval,
 		SettingRequestLogRetentionDays,
-		SettingModelsDevAutoSyncEnabled:
+		SettingModelsDevAutoSyncEnabled,
+		SettingExposeUpstreamModel:
 		return true
 	case SettingErrorRules:
 		return true
@@ -292,6 +296,12 @@ func ResolveRuntimeSettings(settings config.Settings) (RuntimeSettings, error) {
 				return RuntimeSettings{}, err
 			}
 			resolved.ModelsDevAutoSyncEnabled = value
+		case SettingExposeUpstreamModel:
+			value, err := strictBoolean(key, value)
+			if err != nil {
+				return RuntimeSettings{}, err
+			}
+			resolved.ExposeUpstreamModel = value
 		default:
 			return RuntimeSettings{}, fmt.Errorf("unknown runtime setting %q", key)
 		}
@@ -317,6 +327,7 @@ func ResolveGroupRuntimeSettings(
 		CodexLiveMode:             base.CodexLiveMode,
 		ResponsesWebsocketEnabled: base.ResponsesWebsocketEnabled,
 		EmptyResponseRetry:        base.EmptyResponseRetry,
+		ExposeUpstreamModel:       base.ExposeUpstreamModel,
 	}
 	for key, value := range settings {
 		switch key {
@@ -383,6 +394,12 @@ func ResolveGroupRuntimeSettings(
 				return ResolvedGroupSettings{}, err
 			}
 			resolved.EmptyResponseRetry = parsed
+		case SettingExposeUpstreamModel:
+			parsed, err := strictBoolean(key, value)
+			if err != nil {
+				return ResolvedGroupSettings{}, err
+			}
+			resolved.ExposeUpstreamModel = parsed
 		case SettingParameterOverrides:
 			parsed, err := parameteroverride.Compile(value)
 			if err != nil {
@@ -431,7 +448,8 @@ func ValidateRuntimeSetting(key string, value any) error {
 	case SettingRouteStrategy:
 		_, err := parseRouteStrategy(value)
 		return err
-	case SettingAffinityEnabled, SettingResponsesWebsocketEnabled, SettingEmptyResponseRetry:
+	case SettingAffinityEnabled, SettingResponsesWebsocketEnabled, SettingEmptyResponseRetry,
+		SettingExposeUpstreamModel:
 		_, err := strictBoolean(key, value)
 		return err
 	case SettingAffinityTTL:

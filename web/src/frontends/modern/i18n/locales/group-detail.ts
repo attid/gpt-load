@@ -152,6 +152,7 @@ export const zhCN = {
     blacklist_threshold: '连续失败拉黑阈值',
     affinity_enabled: '会话亲和',
     empty_response_retry: '空回检测',
+    expose_upstream_model: '回传上游模型',
     responses_websocket_enabled: 'Responses WebSocket',
   },
 }
@@ -319,6 +320,7 @@ export const enUS: typeof zhCN = {
     blacklist_threshold: 'Consecutive failure threshold',
     affinity_enabled: 'Session affinity',
     empty_response_retry: 'Empty response detection',
+    expose_upstream_model: 'Expose upstream model',
     responses_websocket_enabled: 'Responses WebSocket',
   },
 }
@@ -483,6 +485,7 @@ export const jaJP: typeof zhCN = {
     blacklist_threshold: '連続失敗のしきい値',
     affinity_enabled: 'セッションアフィニティ',
     empty_response_retry: '空応答の検出',
+    expose_upstream_model: '上流モデルをそのまま返す',
     responses_websocket_enabled: 'Responses WebSocket',
   },
 }

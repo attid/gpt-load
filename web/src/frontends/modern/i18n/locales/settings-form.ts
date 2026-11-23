@@ -58,6 +58,7 @@ export const zhCN = {
     jev: '决策模型公共配置',
     request_audit: '智能护栏',
     route_strategy: '路由策略',
+    expose_upstream_model: '回传上游模型',
     auto_model: '自动模型',
     affinity_enabled: '请求亲和',
     affinity_ttl: '亲和有效期',
@@ -90,6 +91,8 @@ export const zhCN = {
     auto_model: '决策模型选择预设，现有调度选择分组和凭据。',
     route_strategy:
       '原生优先先选择原生协议；混合权重让原生与转换候选按有效权重竞争，请求亲和仍生效。',
+    expose_upstream_model:
+      '响应中返回实际处理请求的上游模型，而不是模型别名；同时作用于错误信息与响应头。分组可单独覆盖。',
     affinity_enabled: '复用上次命中的路由目标；分组可单独覆盖。',
     affinity_ttl: '亲和记录的默认保留时长。',
     affinity_capacity: '最多保留的亲和记录数，范围为 1–1,000,000。',
@@ -239,6 +242,7 @@ export const enUS = {
     jev: 'Shared decision model configuration',
     request_audit: 'AI Guardrails',
     route_strategy: 'Routing strategy',
+    expose_upstream_model: 'Expose upstream model',
     auto_model: 'Automatic models',
     affinity_enabled: 'Request affinity',
     affinity_ttl: 'Affinity lifetime',
@@ -273,6 +277,8 @@ export const enUS = {
     request_audit: 'Use the decision model to block or warn on custom rules.',
     route_strategy:
       'Native first prefers native protocols. Weighted mix lets native and converted candidates compete by effective weight. Request affinity still applies.',
+    expose_upstream_model:
+      'Return the model that actually served the request instead of the model alias. Applies to response bodies, error messages and response headers. Groups may override this default.',
     affinity_enabled: 'Reuse the previously selected route. Individual groups may override this.',
     auto_model:
       'The decision model selects a preset; existing scheduling chooses the Group and credential.',
@@ -430,6 +436,7 @@ export const jaJP = {
     jev: '判定モデル共通設定',
     request_audit: 'AI ガードレール',
     route_strategy: 'ルーティング方式',
+    expose_upstream_model: '上流モデルをそのまま返す',
     auto_model: '自動モデル',
     affinity_enabled: 'リクエスト親和性',
     affinity_ttl: '親和性の有効期間',
@@ -464,6 +471,8 @@ export const jaJP = {
     request_audit: '判定モデルが独自ルールでブロックまたは警告します。',
     route_strategy:
       'ネイティブ優先は元のプロトコルを優先し、重み付き混合は変換候補も含めて選択します。親和性は引き続き適用されます。',
+    expose_upstream_model:
+      'モデル別名ではなく実際に処理した上流モデルを応答に返します。エラーメッセージと応答ヘッダーにも適用されます。グループごとに上書きできます。',
     affinity_enabled: '前回選択したルートを再利用します。グループごとに上書きできます。',
     auto_model: '判定モデルがプリセットを選び、既存の経路がグループと認証情報を選択します。',
     affinity_ttl: '親和性レコードの既定保持時間。',

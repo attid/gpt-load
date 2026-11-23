@@ -71,6 +71,7 @@ type SettingsValuesResponse struct {
 	ValidationInterval               int64                 `json:"validation_interval"`
 	RequestLogRetentionDays          int                   `json:"request_log_retention_days"`
 	ModelsDevAutoSyncEnabled         bool                  `json:"models_dev_auto_sync_enabled"`
+	ExposeUpstreamModel              bool                  `json:"expose_upstream_model"`
 	ProxyConfig                      outboundproxy.View    `json:"proxy_config"`
 }
 
@@ -486,6 +487,7 @@ func mapSettingsResponse(
 			ValidationInterval:               durationSeconds(settings.ValidationInterval),
 			RequestLogRetentionDays:          settings.RequestLogRetentionDays,
 			ModelsDevAutoSyncEnabled:         modelsDevAutoSyncEnabled,
+			ExposeUpstreamModel:              settings.ExposeUpstreamModel,
 			ProxyConfig:                      proxyView,
 		},
 		Overrides: overrides,

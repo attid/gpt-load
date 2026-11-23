@@ -60,6 +60,7 @@ export const runtimeSettingKeys = [
   'affinity_enabled',
   'responses_websocket_enabled',
   'empty_response_retry',
+  'expose_upstream_model',
   'affinity_ttl',
   'affinity_capacity',
   'validation_interval',
@@ -88,6 +89,7 @@ export type TimeoutSettingKey = Exclude<
   | 'affinity_enabled'
   | 'responses_websocket_enabled'
   | 'empty_response_retry'
+  | 'expose_upstream_model'
   | 'affinity_capacity'
   | 'request_log_retention_days'
   | 'models_dev_auto_sync_enabled'
@@ -134,6 +136,7 @@ export interface SettingsValues {
   affinity_enabled: boolean
   responses_websocket_enabled: boolean
   empty_response_retry: boolean
+  expose_upstream_model: boolean
   affinity_ttl: number
   affinity_capacity: number
   validation_interval: number
@@ -175,6 +178,7 @@ export type SettingsPatch = Partial<{
   affinity_enabled: boolean | null
   responses_websocket_enabled: boolean | null
   empty_response_retry: boolean | null
+  expose_upstream_model: boolean | null
   affinity_ttl: number | null
   affinity_capacity: number | null
   validation_interval: number | null
@@ -307,6 +311,7 @@ export function projectSettings(value: unknown): SettingsDto {
       affinity_enabled: projectBoolean(values.affinity_enabled),
       responses_websocket_enabled: projectBoolean(values.responses_websocket_enabled),
       empty_response_retry: projectBoolean(values.empty_response_retry),
+      expose_upstream_model: projectBoolean(values.expose_upstream_model),
       affinity_ttl: projectSafeInteger(values.affinity_ttl, { minimum: 1 }),
       affinity_capacity: projectSafeInteger(values.affinity_capacity, {
         minimum: 1,

@@ -68,6 +68,9 @@ type ForwardInput struct {
 	// EmptyResponseRetry 启用空回检测：提交前压住尚无产出的前导事件，
 	// 使「上游正常完成但没有内容」仍可换候选重试。
 	EmptyResponseRetry bool
+	// ExposeUpstreamModel keeps the provider-reported model instead of restoring
+	// ExternalModel in response bodies, error text and response headers.
+	ExposeUpstreamModel bool
 }
 
 // UpstreamResult is the gateway's stable view of one logical execution
@@ -110,7 +113,8 @@ const (
 var ErrUpstreamProtocol = errors.New("upstream protocol error")
 
 func needsModelRewrite(input ForwardInput) bool {
-	return input.ExternalModel != "" &&
+	return !input.ExposeUpstreamModel &&
+		input.ExternalModel != "" &&
 		input.UpstreamModelID != "" &&
 		input.ExternalModel != input.UpstreamModelID
 }

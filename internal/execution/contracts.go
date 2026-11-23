@@ -280,6 +280,9 @@ type AttemptSpec struct {
 	// ForceCredentialRefresh is set only by GPT-Load after a provider explicitly
 	// rejects this selected subscription credential before processing.
 	ForceCredentialRefresh bool `json:"force_credential_refresh,omitempty"`
+	// ExposeUpstreamModel keeps the provider-reported model identifier instead
+	// of restoring ClientModel in the response representation.
+	ExposeUpstreamModel bool `json:"expose_upstream_model,omitempty"`
 	// ContinuityKey is an opaque tenant-scoped value for provider-private
 	// thinking/tool continuity. It is never persisted, logged, or exposed.
 	ContinuityKey string `json:"-"`

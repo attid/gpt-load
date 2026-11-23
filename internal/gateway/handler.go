@@ -1464,7 +1464,8 @@ func (handler *Handler) executeAttempts(
 			EmptyResponseRetry: stream && emptyResponseRetryEnabled(
 				selection.Group, originalMetadata, prepared.request.Body,
 			),
-			OnResponse: handler.responseBindingObserver(recorder.accessKeyID, selection, ref, prepared.request, recorder.autoSelection()),
+			ExposeUpstreamModel: selection.Group.ExposeUpstreamModel,
+			OnResponse:          handler.responseBindingObserver(recorder.accessKeyID, selection, ref, prepared.request, recorder.autoSelection()),
 			OnFirstResponse: func() {
 				recorder.recordFirstResponse()
 			},

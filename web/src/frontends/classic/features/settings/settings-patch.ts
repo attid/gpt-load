@@ -120,6 +120,8 @@ export function setSettingsOverride(
       next.values.responses_websocket_enabled = base.values.responses_websocket_enabled
     } else if (key === 'empty_response_retry') {
       next.values.empty_response_retry = base.values.empty_response_retry
+    } else if (key === 'expose_upstream_model') {
+      next.values.expose_upstream_model = base.values.expose_upstream_model
     } else if (key === 'models_dev_auto_sync_enabled') {
       next.values.models_dev_auto_sync_enabled = base.values.models_dev_auto_sync_enabled
     } else if (key === 'cors') {
