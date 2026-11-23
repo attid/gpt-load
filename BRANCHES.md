@@ -8,6 +8,7 @@
 | Branch | Type | Purpose | Upstream PR |
 |---|---|---|---|
 | `local/meta` | local | Этот реестр и fork-overlay workflow | n/a |
+| `feat/expose-upstream-model` | feat | Настройка `expose_upstream_model` (системный дефолт + переопределение на группу): в ответах реальная upstream-модель вместо алиаса | n/a |
 
 ## Recipe для пересборки `deploy`
 
@@ -21,6 +22,7 @@ git merge --ff-only upstream/main
 
 branches=(
   local/meta
+  feat/expose-upstream-model
 )
 
 for branch in "${branches[@]}"; do
