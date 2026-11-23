@@ -8,6 +8,7 @@
 | Branch | Type | Purpose | Upstream PR |
 |---|---|---|---|
 | `local/meta` | local | Этот реестр и fork-overlay workflow | n/a |
+| `local/ci-deploy` | local | Workflow `deploy-image.yml`: сборка образа из `deploy` и публикация в `ghcr.io/attid/gpt-load` | n/a |
 | `feat/expose-upstream-model` | feat | Настройка `expose_upstream_model` (системный дефолт + переопределение на группу): в ответах реальная upstream-модель вместо алиаса | n/a |
 
 ## Recipe для пересборки `deploy`
@@ -22,6 +23,7 @@ git merge --ff-only upstream/main
 
 branches=(
   local/meta
+  local/ci-deploy
   feat/expose-upstream-model
 )
 
