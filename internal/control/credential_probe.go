@@ -19,6 +19,7 @@ import (
 	"gpt-load/internal/channel"
 	"gpt-load/internal/execution"
 	"gpt-load/internal/health"
+	"gpt-load/internal/opencode"
 	"gpt-load/internal/platform/epochms"
 	app_errors "gpt-load/internal/platform/errors"
 	"gpt-load/internal/platform/redact"
@@ -212,12 +213,15 @@ func (probe *credentialProbeExecutor) Probe(
 				app_errors.ErrInternalServer,
 			)
 		}
+		opencodeHeaders := applyControlHeaderRules(group.HeaderRules, apiKey)
+		// OpenCode 免费额度要求会话头，否则凭据探测会被误判为无效。
+		opencode.ApplyForCredential(opencodeHeaders, group.ChannelID, group.ResolvedTarget.TargetConfig, ref.ID)
 		spec := execution.NewAttemptSpec(execution.AttemptSpec{
 			RequestID: requestID, AttemptID: attemptID, Sequence: uint32(index + 1),
 			ChannelID: string(group.ChannelID),
 			RouteMode: execution.RouteMode(routeMode), ClientProtocol: probeProtocol,
 			Operation: execution.OperationProbe, ClientModel: target.model, UpstreamModel: target.model,
-			Header:            applyControlHeaderRules(group.HeaderRules, apiKey),
+			Header:            opencodeHeaders,
 			ConfiguredHeaders: group.HeaderRules.ConfiguredNames(),
 			TargetConfig:      group.ResolvedTarget.TargetConfig,
 			Timeouts:          executionTimeouts(group.Timeouts),

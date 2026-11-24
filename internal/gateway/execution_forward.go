@@ -11,10 +11,12 @@ import (
 	"sync"
 	"time"
 
+	"gpt-load/internal/channel"
 	"gpt-load/internal/dialect"
 	"gpt-load/internal/execution"
 	"gpt-load/internal/execution/responsemodel"
 	"gpt-load/internal/health"
+	"gpt-load/internal/opencode"
 	"gpt-load/internal/platform/contentcoding"
 	platformheader "gpt-load/internal/platform/httpheader"
 	"gpt-load/internal/platform/redact"
@@ -981,6 +983,8 @@ func newExecutionAttemptSpec(input ForwardInput) (execution.AttemptSpec, error) 
 	}
 	headers := cloneEndToEndHeaders(input.Request.Header)
 	removeDownstreamCredentials(headers)
+	// OpenCode 免费额度要求会话头；客户端与分组规则仍然优先。
+	opencode.Apply(headers, channel.ID(input.ChannelID), input.TargetConfig, input.Request.Body, input.ContinuityKey)
 	for name, value := range input.Group.HeaderRules.Set {
 		headers.Set(name, strings.ReplaceAll(value, "${API_KEY}", input.APIKey))
 	}
