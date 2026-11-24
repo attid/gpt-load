@@ -515,7 +515,7 @@ func (s *websocketConnection) executeTurn(turn websocketTurn) {
 		parsed := &dialect.ParsedRequest{Method: http.MethodPost, Path: "/v1/responses", RawQuery: s.request.URL.RawQuery, Header: s.request.Header.Clone(), Body: payload}
 		// 来源校验属于客户端连接；显式上游 HeaderRules 随后照常应用。
 		parsed.Header.Del("Origin")
-		input := ForwardInput{Dialect: dialect.NewOpenAIResponses(), ObserveUsage: effective.metadata.ObserveUsage, Group: selection.Group, APIKey: credential.apiKey, CredentialSecrets: credential.secrets, Request: parsed, ExternalModel: model, UpstreamModelID: optionalModelValue(selection.UpstreamModelID), RequestID: id, AttemptID: id + ":" + strconv.Itoa(sequence), AttemptSequence: uint32(sequence), ClientProtocol: protocol.OpenAIResponses, Operation: execution.OperationResponsesCreate, RouteRequirement: execution.RouteRequirementNative, ResponsesStorePreference: original.metadata.ResponsesStorePreference, ChannelID: string(selection.ChannelID), RouteMode: execution.RouteNative, TargetConfig: selection.ResolvedTarget.TargetConfig, Credential: execution.NewCredentialSnapshot(ref.ID, ref.Version, ref.IdentityGeneration, credential.payload), Proxy: proxy, ProxyFingerprint: fingerprint}
+		input := ForwardInput{Dialect: dialect.NewOpenAIResponses(), ObserveUsage: effective.metadata.ObserveUsage, Group: selection.Group, APIKey: credential.apiKey, CredentialSecrets: credential.secrets, Request: parsed, ExternalModel: model, UpstreamModelID: optionalModelValue(selection.UpstreamModelID), RequestID: id, AttemptID: id + ":" + strconv.Itoa(sequence), AttemptSequence: uint32(sequence), ClientProtocol: protocol.OpenAIResponses, Operation: execution.OperationResponsesCreate, RouteRequirement: execution.RouteRequirementNative, ResponsesStorePreference: original.metadata.ResponsesStorePreference, ChannelID: string(selection.ChannelID), RouteMode: execution.RouteNative, TargetConfig: selection.ResolvedTarget.TargetConfig, Credential: execution.NewCredentialSnapshot(ref.ID, ref.Version, ref.IdentityGeneration, credential.payload), Proxy: proxy, ProxyFingerprint: fingerprint, ExposeUpstreamModel: selection.Group.ExposeUpstreamModel}
 		if redactionMayRestore(parsed, snapshot.RequestRedaction.Reversible()) {
 			input.RedactionCipher = redactionCipher
 		}
@@ -1141,7 +1141,7 @@ func (s *websocketConnection) runWebsocketAttempt(ctx context.Context, cancel co
 				}
 			}
 		}
-		if responsealias.Needs(input.ExternalModel, input.UpstreamModelID) {
+		if needsModelRewrite(input) {
 			body, err = responsealias.RewriteJSON(protocol.OpenAIResponses, body, input.ExternalModel)
 			if err != nil {
 				return err

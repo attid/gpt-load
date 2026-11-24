@@ -112,6 +112,7 @@ type SectionID = (typeof sectionIDs)[number]
 const sectionFields: Record<SectionID, readonly SettingKey[]> = {
   routing: [
     'route_strategy',
+    'expose_upstream_model',
     'affinity_enabled',
     'affinity_ttl',
     'affinity_capacity',
@@ -591,6 +592,20 @@ onScopeDispose(() => {
                     draft.route_strategy =
                       $event === 'weighted_mix' ? 'weighted_mix' : 'native_first'
                   "
+                />
+              </SettingItem>
+              <SettingItem
+                v-if="matches('expose_upstream_model')"
+                v-bind="settingItem('expose_upstream_model')"
+                class="modern-settings-block"
+                @reset="restore('expose_upstream_model')"
+                @undo="undoRestore('expose_upstream_model')"
+              >
+                <AppSwitch
+                  id="settings-expose_upstream_model"
+                  v-model="draft.expose_upstream_model"
+                  :label="t('settingsForm.fields.expose_upstream_model')"
+                  :disabled="disabled('expose_upstream_model')"
                 />
               </SettingItem>
               <div

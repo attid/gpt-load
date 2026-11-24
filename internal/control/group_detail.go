@@ -27,6 +27,7 @@ type GroupEffectiveConfigResponse struct {
 	CodexLiveMode             state.CodexLiveMode `json:"codex_live_mode"`
 	ResponsesWebsocketEnabled bool                `json:"responses_websocket_enabled"`
 	EmptyResponseRetry        bool                `json:"empty_response_retry"`
+	ExposeUpstreamModel       bool                `json:"expose_upstream_model"`
 }
 
 // GroupSummaryResponse contains the group fields required by the detail page header.
@@ -97,6 +98,7 @@ func effectiveGroupConfig(
 		CodexLiveMode:             resolved.CodexLiveMode,
 		ResponsesWebsocketEnabled: resolved.ResponsesWebsocketEnabled,
 		EmptyResponseRetry:        resolved.EmptyResponseRetry,
+		ExposeUpstreamModel:       resolved.ExposeUpstreamModel,
 		ConcurrencyLimit:          resolved.ConcurrencyLimit,
 	}, nil
 }

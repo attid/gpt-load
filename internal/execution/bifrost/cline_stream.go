@@ -197,7 +197,14 @@ func (s *clineStream) event(frame []byte) error {
 	if chunk.Usage != nil {
 		s.usage = chunk.Usage
 	}
-	chunk.Model = s.spec.ClientModel
+	if s.spec.ExposeUpstreamModel {
+		// 保留上游报告的模型；上游未给出时回退到本次选中的上游模型。
+		if chunk.Model == "" {
+			chunk.Model = s.spec.UpstreamModel
+		}
+	} else {
+		chunk.Model = s.spec.ClientModel
+	}
 	for _, response := range chatToResponsesStreamEvents(&chunk, s.chatState) {
 		if response.Type == schemas.ResponsesStreamResponseTypeCompleted || response.Type == schemas.ResponsesStreamResponseTypeIncomplete {
 			// finish_reason 后可能还有独立 usage 块，等 [DONE] 再发终态。
@@ -213,7 +220,11 @@ func (s *clineStream) event(frame []byte) error {
 
 func (s *clineStream) encode(response *schemas.BifrostResponsesStreamResponse) error {
 	if response.Response != nil {
-		response.Response.Model = s.spec.ClientModel
+		if !s.spec.ExposeUpstreamModel {
+			response.Response.Model = s.spec.ClientModel
+		} else if response.Response.Model == "" {
+			response.Response.Model = s.spec.UpstreamModel
+		}
 		response.Response.Store = schemas.Ptr(false)
 		if response.Type == schemas.ResponsesStreamResponseTypeCreated || response.Type == schemas.ResponsesStreamResponseTypeInProgress {
 			response.Response.Status = schemas.Ptr("in_progress")

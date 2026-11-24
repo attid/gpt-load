@@ -1027,7 +1027,7 @@ func frameSSE(clientProtocol protocol.Protocol, payload []byte) []byte {
 }
 
 func rewriteStreamModelAlias(spec execution.AttemptSpec, payload []byte) ([]byte, error) {
-	if !responsealias.Needs(spec.ClientModel, spec.UpstreamModel) {
+	if spec.ExposeUpstreamModel || !responsealias.Needs(spec.ClientModel, spec.UpstreamModel) {
 		return bytes.Clone(payload), nil
 	}
 	return responsealias.RewriteSSE(spec.ClientProtocol, payload, spec.ClientModel)

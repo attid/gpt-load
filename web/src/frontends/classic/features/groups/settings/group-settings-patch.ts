@@ -88,6 +88,9 @@ function cloneOverrides(value: GroupRuntimeConfigDto): GroupRuntimeConfigDto {
     next.responses_websocket_enabled = value.responses_websocket_enabled
   if (value.empty_response_retry !== undefined)
     next.empty_response_retry = value.empty_response_retry
+  // classic 不提供该开关的控件，但必须原样保留，否则保存分组会丢掉 modern 里设置的覆盖。
+  if (value.expose_upstream_model !== undefined)
+    next.expose_upstream_model = value.expose_upstream_model
   if (value.parameter_overrides?.length)
     next.parameter_overrides = cloneParameterOverrides(value.parameter_overrides)
   return next

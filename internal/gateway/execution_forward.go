@@ -1002,6 +1002,7 @@ func newExecutionAttemptSpec(input ForwardInput) (execution.AttemptSpec, error) 
 		ResponsesStoreDowngraded: input.ResponsesStoreDowngraded,
 		ClientModel:              input.ExternalModel,
 		UpstreamModel:            input.UpstreamModelID,
+		ExposeUpstreamModel:      input.ExposeUpstreamModel,
 		Method:                   input.Request.Method,
 		Path:                     input.Request.Path,
 		RawQuery:                 input.Request.RawQuery,

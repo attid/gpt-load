@@ -99,8 +99,12 @@ func nativeSSEEventHasData(event []byte) bool {
 	return false
 }
 
+// needsClientModelAlias reports whether the response model must be restored to
+// the client-visible model. Exposed upstream models skip every alias rewrite.
 func needsClientModelAlias(spec execution.AttemptSpec) bool {
-	return spec.Operation != execution.OperationWebSearch && responsealias.Needs(spec.ClientModel, spec.UpstreamModel)
+	return !spec.ExposeUpstreamModel &&
+		spec.Operation != execution.OperationWebSearch &&
+		responsealias.Needs(spec.ClientModel, spec.UpstreamModel)
 }
 
 func rewriteClientResponseModel(clientProtocol protocol.Protocol, body []byte, clientModel string) ([]byte, error) {

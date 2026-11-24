@@ -37,6 +37,7 @@ export const settingSwitches = [
   'affinity_enabled',
   'responses_websocket_enabled',
   'empty_response_retry',
+  'expose_upstream_model',
   'models_dev_auto_sync_enabled',
 ] as const
 export type SettingSwitch = (typeof settingSwitches)[number]
