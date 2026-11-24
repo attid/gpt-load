@@ -9,6 +9,7 @@
 |---|---|---|---|
 | `local/meta` | local | Этот реестр и fork-overlay workflow | n/a |
 | `local/ci-deploy` | local | Workflow `deploy-image.yml`: сборка образа из `deploy` и публикация в `ghcr.io/attid/gpt-load` | n/a |
+| `feat/opencode-session-header` | feat | `x-opencode-session` для каналов OpenCode: клиентское значение, иначе стабильный id диалога; для probe — per-credential | n/a |
 | `feat/expose-upstream-model` | feat | Настройка `expose_upstream_model` (системный дефолт + переопределение на группу): в ответах реальная upstream-модель вместо алиаса | n/a |
 
 ## Recipe для пересборки `deploy`
@@ -25,6 +26,7 @@ branches=(
   local/meta
   local/ci-deploy
   feat/expose-upstream-model
+  feat/opencode-session-header
 )
 
 for branch in "${branches[@]}"; do
